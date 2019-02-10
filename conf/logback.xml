@@ -1,0 +1,49 @@
+<!-- https://www.playframework.com/documentation/latest/SettingsLogger -->
+<configuration>
+
+  <conversionRule conversionWord="coloredLevel"
+    converterClass="play.api.libs.logback.ColoredLevel"/>
+
+  <appender class="ch.qos.logback.core.FileAppender" name="FILE">
+    <file>${application.home:-.}/logs/application.log</file>
+    <encoder>
+      <pattern>%date [%level] from %logger in %thread - %message%n%xException</pattern>
+    </encoder>
+  </appender>
+
+  <appender class="ch.qos.logback.core.ConsoleAppender" name="STDOUT">
+    <encoder>
+      <pattern>%coloredLevel %logger{15} - %message%n%xException{10}</pattern>
+    </encoder>
+  </appender>
+
+  <appender class="ch.qos.logback.classic.AsyncAppender" name="ASYNCFILE">
+    <appender-ref ref="FILE"/>
+  </appender>
+
+  <appender class="ch.qos.logback.classic.AsyncAppender" name="ASYNCSTDOUT">
+    <appender-ref ref="STDOUT"/>
+  </appender>
+
+  <logger level="INFO" name="play"/>
+  <logger level="INFO" name="akka"/>
+  <logger level="DEBUG" name="application"/>
+  <logger level="DEBUG" name="actors"/>
+
+  <!-- Off these ones as they are annoying, and anyway we manage configuration ourselves -->
+  <logger level="OFF" name="com.avaje.ebean.config.PropertyMapLoader"/>
+  <logger level="OFF" name="com.avaje.ebeaninternal.server.core.XmlConfigLoader"/>
+  <logger level="OFF" name="com.avaje.ebeaninternal.server.lib.BackgroundThread"/>
+  <logger level="OFF" name="com.gargoylesoftware.htmlunit.javascript"/>
+
+  <root level="WARN">
+    <!--<appender-ref ref="ASYNCFILE" />-->
+    <appender-ref ref="ASYNCSTDOUT"/>
+  </root>
+
+  <root level="ERROR">
+    <!--<appender-ref ref="ASYNCFILE" />-->
+    <appender-ref ref="ASYNCSTDOUT"/>
+  </root>
+
+</configuration>
