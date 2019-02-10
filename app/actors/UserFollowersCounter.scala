@@ -15,13 +15,16 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
 class UserFollowersCounter @Inject()(ws: WSClient, credentials: TwitterCredentials) extends Actor with ActorLogging {
 
   implicit val executionContext: ExecutionContextExecutor = context.dispatcher
+
   val breaker =
     new CircuitBreaker(context.system.scheduler,
       maxFailures = 5,
       callTimeout = 2.seconds,
       resetTimeout = 1.minute
     )
+
   val LimitRemaining = "X-Rate-Limit-Remaining"
+
   val LimitReset = "X-Rate-Limit-Reset"
 
   def receive: PartialFunction[Any, Unit] = {

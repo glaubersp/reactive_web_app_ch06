@@ -13,9 +13,11 @@ import scala.concurrent.{ExecutionContextExecutor, Future}
 import scala.util.control.NonFatal
 
 class TweetReachComputer @Inject()(userFollowersCounter: ActorRef, storage: ActorRef, ws: WSClient, credentials: TwitterCredentials) extends Actor with ActorLogging {
+
   val retryScheduler: Cancellable = context.system.scheduler.schedule(10.millis, 20.seconds, self, ResendUnacknowledged)
 
   implicit val executionContext: ExecutionContextExecutor = context.dispatcher
+
   var followerCountsByRetweet = Map.empty[FetchedRetweet, List[FollowerCount]]
 
   override def postStop(): Unit = {

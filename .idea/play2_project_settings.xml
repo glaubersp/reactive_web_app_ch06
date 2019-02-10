@@ -6,7 +6,7 @@
         <entry key="reactive_web_app_ch06">
           <value>
             <ProjectSettingsEntry>
-              <option name="playDistrPath" value="$USER_HOME$/.ivy2/cache/com.typesafe.play/play_2.12/jars/play_2.12-2.6.21.jar" />
+              <option name="playDistrPath" value="$USER_HOME$/.ivy2/cache/com.typesafe.play/play_2.12/jars/play_2.12-2.7.0.jar" />
             </ProjectSettingsEntry>
           </value>
         </entry>

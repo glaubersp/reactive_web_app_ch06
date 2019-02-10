@@ -19,6 +19,7 @@ case class StoredReach(when: DateTime, tweetId: BigInt, score: Int)
 object StoredReach {
 
   implicit object BigIntHandler extends BSONDocumentReader[BigInt] with BSONDocumentWriter[BigInt] {
+
     def write(bigInt: BigInt): BSONDocument = BSONDocument(
       "signum" -> bigInt.signum,
       "value" -> BSONBinary(bigInt.toByteArray, Subtype.UserDefinedSubtype))
@@ -28,9 +29,11 @@ object StoredReach {
         val buf = doc.getAs[BSONBinary]("value").get.value
         buf.readArray(buf.readable())
       })
+
   }
 
   implicit object StoredReachHandler extends BSONDocumentReader[StoredReach] with BSONDocumentWriter[StoredReach] {
+
     override def read(bson: BSONDocument): StoredReach = {
       val when = bson.getAs[BSONDateTime]("when").map(t => new DateTime(t.value)).get
       val tweetId = bson.getAs[BigInt]("tweet_id").get
@@ -60,13 +63,14 @@ class Storage() extends Actor with ActorLogging {
   var connection: MongoConnection = _
   var db: DefaultDB = _
   var collection: BSONCollection = _
+
   obtainConnection()
+
   var currentWrites = Set.empty[BigInt]
 
   override def postRestart(reason: Throwable): Unit = {
     reason match {
       case _: ConnectionException =>
-        // try to obtain a brand new connection
         obtainConnection()
     }
     super.postRestart(reason)

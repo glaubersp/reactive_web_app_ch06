@@ -16,7 +16,9 @@ class Application @Inject()(controllerComponents: ControllerComponents, system: 
   lazy val statisticsProvider: ActorSelection = system.actorSelection("akka://application/user/statisticsProvider")
 
   def computeReach(tweetId: String): Action[AnyContent] = Action.async {
+
     implicit val timeout: Timeout = Timeout(5.minutes)
+
     val eventuallyReach = statisticsProvider ? ComputeReach(BigInt(tweetId))
     eventuallyReach.map {
       case tr: TweetReach =>
@@ -26,6 +28,7 @@ class Application @Inject()(controllerComponents: ControllerComponents, system: 
       case TweetReachCouldNotBeComputed =>
         ServiceUnavailable("Sorry")
     }
+
   }
 
 }
