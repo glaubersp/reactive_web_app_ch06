@@ -1,1 +1,1 @@
-# Reactive Web Development - Chapter 06
+# Reactive Web Application - Chapter 06
