@@ -15,4 +15,3 @@ class TwitterCredentials @Inject()(config: Configuration) {
     Some(ConsumerKey(apiKey, apiSecret), RequestToken(token, tokenSecret))
   }
 }
-

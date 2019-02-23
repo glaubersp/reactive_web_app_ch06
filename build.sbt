@@ -14,7 +14,7 @@ resolvers += Resolver.sonatypeRepo("snapshots")
 libraryDependencies += guice
 libraryDependencies += ws
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "4.0.1" % Test
-libraryDependencies += "org.reactivemongo" %% "play2-reactivemongo" % "0.16.0-play26"
+libraryDependencies += "org.reactivemongo" %% "play2-reactivemongo" % "0.16.2-play27"
 
 //routesGenerator := InjectedRoutesGenerator
 

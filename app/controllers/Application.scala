@@ -11,9 +11,13 @@ import play.api.mvc._
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 
-class Application @Inject()(controllerComponents: ControllerComponents, system: ActorSystem)(implicit ec: ExecutionContext) extends AbstractController(controllerComponents) {
+class Application @Inject()(controllerComponents: ControllerComponents, system: ActorSystem)(
+  implicit
+  ec: ExecutionContext
+) extends AbstractController(controllerComponents) {
 
-  lazy val statisticsProvider: ActorSelection = system.actorSelection("akka://application/user/statisticsProvider")
+  lazy val statisticsProvider: ActorSelection =
+    system.actorSelection("akka://application/user/statisticsProvider")
 
   def computeReach(tweetId: String): Action[AnyContent] = Action.async {
 

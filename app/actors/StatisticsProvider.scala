@@ -12,7 +12,9 @@ import reactivemongo.core.errors.ConnectionException
 import scala.concurrent.ExecutionContextExecutor
 import scala.concurrent.duration._
 
-class StatisticsProvider @Inject()(ws: WSClient, credentials: TwitterCredentials) extends Actor with ActorLogging {
+class StatisticsProvider @Inject()(ws: WSClient, credentials: TwitterCredentials)
+    extends Actor
+    with ActorLogging {
 
   var reachComputer: ActorRef = _
   var storage: ActorRef = _
@@ -22,9 +24,13 @@ class StatisticsProvider @Inject()(ws: WSClient, credentials: TwitterCredentials
 
   override def preStart(): Unit = {
     log.info("Starting StatisticsProvider")
-    followersCounter = context.actorOf(UserFollowersCounter.props(ws, credentials), name = "userFollowersCounter")
+    followersCounter =
+      context.actorOf(UserFollowersCounter.props(ws, credentials), name = "userFollowersCounter")
     storage = context.actorOf(Props[Storage], name = "storage")
-    reachComputer = context.actorOf(TweetReachComputer.props(followersCounter, storage, ws, credentials), name = "tweetReachComputer")
+    reachComputer = context.actorOf(
+      TweetReachComputer.props(followersCounter, storage, ws, credentials),
+      name = "tweetReachComputer"
+    )
 
     context.watch(storage)
   }
@@ -80,7 +86,9 @@ class StatisticsProvider @Inject()(ws: WSClient, credentials: TwitterCredentials
 }
 
 object StatisticsProvider {
-  def props(ws: WSClient, credentials: TwitterCredentials): Props = Props(new StatisticsProvider(ws, credentials))
+
+  def props(ws: WSClient, credentials: TwitterCredentials): Props =
+    Props(new StatisticsProvider(ws, credentials))
 
   case object ServiceUnavailable
 
@@ -89,4 +97,3 @@ object StatisticsProvider {
   case object ResumeService
 
 }
-

@@ -6,7 +6,8 @@ import com.google.inject.AbstractModule
 import javax.inject._
 import play.api.libs.ws.WSClient
 
-class Actors @Inject()(system: ActorSystem, ws: WSClient, credentials: TwitterCredentials) extends ApplicationActors {
+class Actors @Inject()(system: ActorSystem, ws: WSClient, credentials: TwitterCredentials)
+    extends ApplicationActors {
 
   system.actorOf(
     props = StatisticsProvider.props(ws, credentials).withDispatcher("control-aware-dispatcher"),
@@ -24,4 +25,3 @@ class ActorsModule extends AbstractModule {
   }
 
 }
-
